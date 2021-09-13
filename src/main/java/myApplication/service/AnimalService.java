@@ -11,7 +11,7 @@ public interface AnimalService {
 
     void addAnimal(AnimalDto animalDto);
 
-    void deleteAnimal(AnimalDto animalDto);
+    void deleteAnimal(Long animalId) throws NoElementException;
 
     AnimalDto findAnimalById(Long id) throws NoElementException;
 

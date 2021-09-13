@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class AnimalServiceImpl implements AnimalService {
 
@@ -27,23 +28,32 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public void deleteAnimal(AnimalDto animalDto) {
-
+    public void deleteAnimal(Long animalId) throws NoElementException {
+        Optional<AnimalEntity> animalEntityOptional = animalRepository.findById(animalId);
+        if (!animalEntityOptional.isPresent()) {
+            throw new NoElementException("No animal with given id in database!");
+        } else {
+            animalRepository.delete(animalEntityOptional.get());
+        }
     }
 
     @Override
     public AnimalDto findAnimalById(Long id) throws NoElementException {
         Optional<AnimalEntity> animalOptional = animalRepository.findById(id);
-        if(animalOptional.isPresent()){
+        if (animalOptional.isPresent()) {
             AnimalEntity animalEntity = animalOptional.get();
             return AnimalMapper.mapToDto(animalEntity);
-        }else{
+        } else {
             throw new NoElementException("No animal with given id in database!");
         }
     }
 
     @Override
     public List<AnimalDto> findAnimalByAnimalType(AnimalType animalType) {
-        return null;
+        List<AnimalEntity> animalEntities = animalRepository.findAll().stream()
+                .filter(p -> p.getType().equals(animalType))
+                .collect(Collectors.toList());
+
+        return AnimalMapper.mapToDtos(animalEntities);
     }
 }
