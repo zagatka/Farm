@@ -28,7 +28,7 @@ class AnimalServiceTest {
     private AnimalServiceImpl animalService;
 
     @Test
-    void shouldAddAnimal() {
+    void shouldAddAnimalWorks() {
         //g
         AnimalDto animalDto = new AnimalDto();
 
@@ -42,19 +42,15 @@ class AnimalServiceTest {
     @Test
     void shouldDeleteAnimalThrowExceptionForNoAnimalWithGivenIdInDatabase() {
         //g
-
         //w
-
         //t
         Assertions.assertThrows(NoElementException.class, () -> animalService.deleteAnimal(ANIMAL_ID_NOT_IN_DATABASE));
     }
 
     @Test
-    void shouldDeleteAnimal() throws NoElementException {
+    void shouldDeleteAnimalWorks() throws NoElementException {
         //g
-        AnimalEntity animalEntity = new AnimalEntity();
-        Optional<AnimalEntity> animalEntityOptional =  Optional.of(animalEntity);
-        Mockito.when(animalRepository.findById(Mockito.any())).thenReturn(animalEntityOptional);
+        Mockito.when(animalRepository.findById(Mockito.any())).thenReturn(prepareAnimalEntity());
 
         //w
         animalService.deleteAnimal(ANIMAL_ID);
@@ -65,9 +61,9 @@ class AnimalServiceTest {
     }
 
     @Test
-    void shouldFindAnimalById() throws NoElementException {
+    void shouldFindAnimalByIdWorks() throws NoElementException {
         //g
-
+        Mockito.when(animalRepository.findById(Mockito.any())).thenReturn(prepareAnimalEntity());
 
         //w
         animalService.findAnimalById(ANIMAL_ID);
@@ -75,6 +71,11 @@ class AnimalServiceTest {
         //t
         Mockito.verify(animalRepository).findById(Mockito.any());
 
+    }
+
+    private Optional<AnimalEntity> prepareAnimalEntity() {
+        AnimalEntity animalEntity = new AnimalEntity();
+        return Optional.of(animalEntity);
     }
 
 }
