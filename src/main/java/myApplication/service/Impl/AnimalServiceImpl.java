@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 public class AnimalServiceImpl implements AnimalService {
 
@@ -57,6 +58,12 @@ public class AnimalServiceImpl implements AnimalService {
         if (animalEntities.size() == 0) {
             throw new NoElementException("Animals of given type are not found.");
         }
+        return AnimalMapper.mapToDtos(animalEntities);
+    }
+
+    @Override
+    public List<AnimalDto> findAllAnimals() {
+        List<AnimalEntity> animalEntities = animalRepository.findAll();
         return AnimalMapper.mapToDtos(animalEntities);
     }
 }
