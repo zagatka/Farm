@@ -16,4 +16,7 @@ public interface AnimalService {
     AnimalDto findAnimalById(Long id) throws NoElementException;
 
     List<AnimalDto> findAnimalByAnimalType(AnimalType animalType) throws NoElementException;
+
+    List<AnimalDto> findAllAnimals();
+
 }
