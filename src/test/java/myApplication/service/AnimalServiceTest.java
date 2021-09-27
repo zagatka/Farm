@@ -28,7 +28,7 @@ class AnimalServiceTest {
     private AnimalServiceImpl animalService;
 
     @Test
-    void shouldAddAnimalWorks() {
+    void shouldAddAnimalAddAnimal() {
         //g
         AnimalDto animalDto = new AnimalDto();
 
@@ -48,7 +48,7 @@ class AnimalServiceTest {
     }
 
     @Test
-    void shouldDeleteAnimalWorks() throws NoElementException {
+    void shouldDeleteAnimalDeleteAnimal() throws NoElementException {
         //g
         Mockito.when(animalRepository.findById(Mockito.any())).thenReturn(prepareAnimalEntity());
 
@@ -61,7 +61,7 @@ class AnimalServiceTest {
     }
 
     @Test
-    void shouldFindAnimalByIdWorks() throws NoElementException {
+    void shouldFindAnimalByIdFindAnimal() throws NoElementException {
         //g
         Mockito.when(animalRepository.findById(Mockito.any())).thenReturn(prepareAnimalEntity());
 
@@ -72,6 +72,17 @@ class AnimalServiceTest {
         Mockito.verify(animalRepository).findById(Mockito.any());
 
     }
+
+    @Test
+    void shouldFindAnimalByIdThrowNoElementExceptionForNoAnimalInDatabaseWithGivenId(){
+        //g
+
+        //w
+
+        //t
+        Assertions.assertThrows(NoElementException.class, () -> animalService.findAnimalById(ANIMAL_ID_NOT_IN_DATABASE));
+    }
+
 
     private Optional<AnimalEntity> prepareAnimalEntity() {
         AnimalEntity animalEntity = new AnimalEntity();
